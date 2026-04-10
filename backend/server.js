@@ -1,21 +1,21 @@
-require("dotenv").config();   // ✅ MUST BE FIRST
-
 const express = require("express");
 const connectDB = require("./config/db");
+require("dotenv").config();
 
 const app = express();
 
 // connect database
 connectDB();
 
-// test route
+// middleware
+app.use(express.json());
+
 app.get("/", (req, res) => {
-  res.send("API is working 🚀");
+  res.send("API running...");
 });
 
-// debug (optional)
-console.log("URI:", process.env.MONGO_URI);
+const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
