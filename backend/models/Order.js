@@ -37,6 +37,18 @@ const orderSchema = new mongoose.Schema({
     required: true
   },
 
+  deliveryPartner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'DeliveryPartner',
+    default: "null",
+  },
+
+  deliveryStatus: {
+    type: String,
+    enum: ["not_assigned", "assigned", "picked", "delivered"],
+    default: "not_assigned"
+  },
+
   status: {
     type: String,
     enum: ['pending', 'confirmed', 'delivered', 'cancelled'],

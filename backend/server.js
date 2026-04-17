@@ -24,10 +24,12 @@ app.listen(PORT, () => {
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require("./routes/cartRoutes");
 
 // Route usage
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+app.use("/api/cart", cartRoutes);
 
 module.exports = app;

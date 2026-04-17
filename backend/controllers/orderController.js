@@ -1,4 +1,6 @@
-const Order = require('../models/Order');
+const Cart = require("../models/Cart");
+const Order = require("../models/Order");
+const Product = require("../models/Product");
 const User = require('../models/User');
 
 // CREATE ORDER
@@ -24,10 +26,10 @@ exports.createOrder = async (req, res) => {
 // GET USER ORDERS
 exports.getMyOrders = async (req, res) => {
     try {
-        if(req.user.role!== "student"){
+        if (req.user.role !== "student") {
             return res.status(403).json({
-                success:false,
-                message:"You are not allowed for this operation",
+                success: false,
+                message: "You are not allowed for this operation",
             })
         };
 
@@ -41,13 +43,13 @@ exports.getMyOrders = async (req, res) => {
 // GET ALL ORDERS (ADMIN)
 exports.getAllOrders = async (req, res) => {
     try {
-        if(req.user.role !== "admin"){
+        if (req.user.role !== "admin") {
             return res.status(403).json({
-                success:false,
-                message:"You are not allowed for this operation",
+                success: false,
+                message: "You are not allowed for this operation",
             })
         };
-        
+
         const orders = await Order.find().populate("user", "name email");
         res.json(orders);
     } catch (error) {
@@ -58,10 +60,10 @@ exports.getAllOrders = async (req, res) => {
 // UPDATE ORDER STATUS
 exports.updateOrderStatus = async (req, res) => {
     try {
-        if(req.user.role !== "admin"){
+        if (req.user.role !== "admin") {
             return res.status(403).json({
-                success:false,
-                message:"You are not allowed for this operation",
+                success: false,
+                message: "You are not allowed for this operation",
             })
         };
 
@@ -79,3 +81,18 @@ exports.updateOrderStatus = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.deleteOrder = async (req, res) => {
+    try {
+        await Order.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({
+            success: true,
+            message: "Order deleted"
+        });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
